@@ -1,5 +1,5 @@
 FROM centos:7
-
+  
 RUN yum -y update
 # Repositories
 RUN yum -y install epel-release
@@ -19,6 +19,10 @@ RUN yum -y install emacs \
                    vim \
                    sudo \
                    gsi-openssh-clients
+
+#package for adding file to dirac
+RUN yum -y install boost-python
+
 # Install Singularity dependencies and Go
 RUN yum groupinstall -y 'Development Tools' && \
     yum install -y \
@@ -49,8 +53,8 @@ RUN mkdir /usr/local/gridpp-dirac && \
     cd /usr/local/gridpp-dirac && \
     wget -np -O dirac-install https://raw.githubusercontent.com/DIRACGrid/DIRAC/integration/Core/scripts/dirac-install.py && \
     chmod +x dirac-install && \
-    ./dirac-install -r v6r21p7 -i 27 -g v14r1 && \ 
-    source ./bashrc 
+    ./dirac-install -r v6r21p7 -i 27 -g v14r1 && \
+    source ./bashrc
 RUN echo "alias setup-grid='source /usr/local/gridpp-dirac/bashrc'" > /etc/profile.d/gridpp-dirac.sh
 
 # Add a non-privileged user
